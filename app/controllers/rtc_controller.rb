@@ -62,27 +62,27 @@ def login
         cookies[:rtm_overview_caching] = { :value => Date.today.to_s, :expires => 1.days.from_now }
 
         lists = Array.new
-        if cookie_vars.nil? || "1".casecmp(cookie_vars[i]["hidden_all"]) == 0
+        if cookie_vars.nil? || "1" == cookie_vars[i]["hidden_all"]
           lists << { :name => "all", :url => "all", :type => "date", :url_type => nil }
         end
         i = i + 1
-        if cookie_vars.nil? || "1".casecmp(cookie_vars[i]["hidden_overdue"]) == 0
+        if cookie_vars.nil? || "1" == cookie_vars[i]["hidden_overdue"]
           lists << { :name => "overdue", :url => "overdue", :type => "date", :url_type => nil }
         end
         i = i + 1
-        if cookie_vars.nil? || "1".casecmp(cookie_vars[i]["hidden_today"]) == 0
+        if cookie_vars.nil? || "1" == cookie_vars[i]["hidden_today"]
           lists << { :name => "today", :url => "today", :type => "date", :url_type => nil }
         end
         i = i + 1
-        if cookie_vars.nil? || "1".casecmp(cookie_vars[i]["hidden_tomorrow"]) == 0
+        if cookie_vars.nil? || "1" == cookie_vars[i]["hidden_tomorrow"]
           lists << { :name => "tomorrow", :url => "tomorrow", :type => "date", :url_type => nil }
         end
         i = i + 1
-        if cookie_vars.nil? || "1".casecmp(cookie_vars[i]["hidden_this week"]) == 0
+        if cookie_vars.nil? || "1" == cookie_vars[i]["hidden_this week"]
           lists << { :name => "this week", :url => "week", :type => "date", :url_type => nil }
         end
         i = i + 1
-        if cookie_vars.nil? || "1".casecmp(cookie_vars[i]["hidden_never"]) == 0
+        if cookie_vars.nil? || "1" == cookie_vars[i]["hidden_never"]
           lists << { :name => "never", :url => "never", :type => "date", :url_type => nil }
         end
         i = i + 1
