@@ -1,0 +1,117 @@
+<% title "remember the cat" %>
+
+<div id="rtm"><%= link_to "&nbsp;", { :controller => "rtc", :action => "overview" }, :id => "rtm_home" %><%= link_to "&nbsp;", home_url, :id => "fousa_home" %></div>
+
+<div id="button_bar">
+	<%= button_to "complete", { :action => "complete" }, :id => "delete" %>
+	<%= link_to "&lt; back", { :controller => :rtc, :action => :status, :list => session[:rtm_type_list], :id => session[:rtm_type] }, :class => "back" %>
+</div>
+<% form_for(:rtc, :url => { :controller => "rtc", :action => "update"}, :html => { :method => :put }) do |f| %>
+<%= submit_tag "update", :id => "update" %>
+
+<% if !@undo.nil? %>
+<%= link_to "Press to undo the previous '" + @undo[:description] + "' action", undo_url, :class => "undo" %>
+<% end %>
+
+<h2>name</h2>
+<%= text_area_tag 'name', @task[:name], { :rows => 3 } %>
+
+<h2>priority</h2>
+<table class="radio_group" cellspacing="0" cellpadding="0">
+	<tr>
+		<td><input type="radio" value="1" name="priority" id="high_p" <% if @task[:priority].casecmp("1") == 0 %>checked<% end %> /> <label for="high_p" onclick="javascript: disable_radio('high_p')">high</label></td>
+		<td><input type="radio" value="3" name="priority" id="low_p" <% if @task[:priority].casecmp("3") == 0 %>checked<% end %> /> <label for="low_p" onclick="javascript: disable_radio('low_p')">low</label></td>
+	</tr>
+	<tr>
+		<td><input type="radio" value="2" name="priority" id="medium_p" <% if @task[:priority].casecmp("2") == 0 %>checked<% end %> /> <label for="medium_p" onclick="javascript: disable_radio('medium_p')">medium</label></td>
+		<td><input type="radio" value="" name="priority" id="none_ps" <% if @task[:priority].casecmp("N") == 0 %>checked<% end %> /> <label for="none_ps" onclick="javascript: disable_radio('none_ps')">none</label></td>
+	</tr>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+	preload_image = new Image(25,25); 
+	preload_image.src="/images/check_on.png";
+	function dis(element) {
+		if (element.checked) {
+			document.getElementById("date_selection").style.display = "none";
+		} else {
+			document.getElementById("date_selection").style.display = "block";
+		}
+	}
+	function disable_label() {
+		var element = document.getElementById("none_p")
+		if (element.checked) {
+			element.checked = false
+			document.getElementById("date_selection").style.display = "block";
+		} else {
+			element.checked = true
+			document.getElementById("date_selection").style.display = "none";
+		}
+	}
+	function disable_radio(radio) {
+		var element = document.getElementById(radio)
+		if (!element.checked) {
+			element.checked = true
+		}
+	}
+</script>
+<h2>due date</h2>
+<input type="checkbox" value="true" name="due_none" id="none_p" onclick="dis(this)" class="check" <% if @task[:due].casecmp("") == 0 %>checked<% end %> /> <label for="due_none" class="none" onclick="javascript: disable_label()">no due date</label><br />
+<% formatted_date = date_to_array(@task[:due].casecmp("") == 0 ? @start_date : @task[:due]) %>
+<div id="date_selection" style="display: <%= @task[:due].casecmp("") == 0 ? 'none' : 'block' %>;">
+	<span id="form_date">&nbsp;</span>
+	<% # DON'T UPDATE %>
+	
+	<%= select_day formatted_date[:day].to_i, :onchange => "javascript: changeDate()" %>
+	<%= select_month formatted_date[:month].to_i, :onchange => "javascript: changeDate()" %>
+	<%= select_year formatted_date[:year].to_i, :onchange => "javascript: changeDate()" %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	changeDate()
+	function changeDate() {
+		var date = document.getElementById('form_date')
+		var day = document.getElementById('date_day')
+		var month = document.getElementById('date_month')
+		var year = document.getElementById('date_year')
+		var dl = Date.parse(month.value + '.' + day.value + '.' + year.value);
+		date.innerHTML = dl.toString('ddd').toLowerCase()
+	}
+</script>
+
+<% lat = ""
+lon = ""
+name = ""
+for location in @locations
+	if location[:id].casecmp(@task[:location]) == 0
+		lat = location[:lat]
+		lon = location[:lon]
+		name = location[:name]
+		break
+	end
+end %>
+
+<h2><% if name.casecmp("") != 0 %><a href="http://maps.google.com/maps?q=<%= lat %>+<%= lon %>" title="Show the current location in Google Maps.">Go to Google Maps</a><% end %>location</h2>
+<span id="selects">&nbsp;</span>
+<select name="location">
+	<option></option>
+	<% for location in @locations %>
+		<option value="<%= location[:id] %>"<% if location[:id].casecmp(@task[:location]) == 0 %> selected<% end %>><%= location[:name] %></option>
+	<% end %>
+</select>
+
+<h2><% if @task[:url].casecmp("") != 0 %><a href="<%= @task[:url] %>" title="Show the current url." target="_blank">Go to the URL</a><% end %>url</h2>
+<%= text_area_tag 'url', @task[:url], { :rows => 1 } %>
+
+<h2>tags</h2>
+<p class="help">separate each tag with a comma</p>
+<%= text_area_tag 'tags', @task[:tags].join(", "), { :rows => 3 } %>
+
+<% end %>
+<h2>postponed</h2>
+<p><%= button_to "delay 1 day", { :controller => "rtc", :action => "postpone" }, :id => "postpone" %><span class="format"><%= (@task[:postponed].casecmp("0") == 0) ? "Never" : pluralize(@task[:postponed], 'time') %></span></p>
+
+<h2>complete</h2>
+<p><%= button_to "delete", { :action => "delete" }, :id => "complete" %><span class="format">delete this task</span></p>
+
+<br />

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	<meta name="format-detection" content="telephone=no" />
+	<title><%= yield(:title) %></title>
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<%= stylesheet_link_tag 'iphone' %>
+	<%= javascript_include_tag :defaults %>
+	<%= javascript_include_tag "date" %>
+	<script type="text/javascript" charset="utf-8">
+		window.onload = function() {
+			// DEV
+			setTimeout(function() { window.scrollTo(0, 1); }, 100);
+			document.getElementById('second_menu').style.display = "none";
+		}
+		<% if !@error.nil? %>
+			alert("<%= @error[:description] %>");
+		<% end %>
+	</script>
+	<link rel="apple-touch-icon" href="/images/iphone.png"/>
+</head>
+<body>
+
+	<div id="content">
+		<%= yield %>
+	</div>
+	<p id="footer"><%= link_to "feedback", feedback_url %><span style="padding: 0 20px 0 20px;">&nbsp;</span><%= link_to "policy", policy_url %></p>
+
+	<% if ENV['RAILS_ENV'].casecmp("production") == 0 %>
+		<script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    try {
+    var pageTracker = _gat._getTracker("UA-2750996-1");
+    pageTracker._trackPageview();
+    } catch(err) {}</script>
+	<% end %>
+</body>
+</html>

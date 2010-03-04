@@ -1,0 +1,32 @@
+<% title "remember the cat" %>
+
+<div id="rtm"><span id="rtm_home_s"></span><%= link_to "&nbsp;", home_url, :id => "fousa_home" %></div>
+
+<div id="button_bar" style="text-align: center;">
+	<table style="width: 100%" cellspacing="10px">
+		<tr>
+			<td><%= button_to "refresh", { :controller => "rtc", :action => "refresh" }, { :class => "main_but" } %></td>
+			<td><%= button_to "edit", { :controller => "rtc", :action => "edit" }, { :class => "main_but" } %></td>
+			<td><%= button_to "add task", { :controller => "rtc", :action => "add", :id => "not" }, { :class => "main_but" } %></td>
+		</tr>
+	</table>
+</div>
+
+<% if !@undo.nil? %>
+<%= link_to "Press to undo the previous '" + @undo[:description] + "' action", undo_url, :class => "undo" %>
+<br />
+<% end %>
+
+<% cache ("rtm_overview_" + @token_id) do %>
+<% if @counts.size > 0%>
+<ul>
+	<% for count in @counts %>
+		<% icon = count[:type].casecmp('smart') == 0 ? "smart_lists" : count[:type].casecmp('list') == 0 ? "lists" : "date" %>
+		<li><% if count[:count].casecmp("0") != 0 %><span class="info"><%= count[:count] %></span><% end %><%= link_to "<img src=\"/images/#{icon}.png\" alt=\"type of list\" class=\"inline_icon_list\" /><span class=\"inline_icon_list_text text_color_#{icon}\">#{count[:list].downcase}</span>", { :controller => :rtc, :action => :status, :list => count[:url_type], :id => count[:url].downcase }, :class => "main" %></li>
+	<% end %>
+</ul>
+<% else %>
+	<p class="empty_tasks">&lt; no lists shown &gt;</p>
+<% end %>
+<% end %>
+<br />

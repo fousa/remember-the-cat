@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" style="background:#666 url(/images/loading.gif) center center no-repeat;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	<meta name="format-detection" content="telephone=no" />
+	<title>500 - internal server error</title>
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link href="/stylesheets/iphone.css?1202160016" media="screen" rel="Stylesheet" type="text/css" />
+	<script type="text/javascript" charset="utf-8">
+		window.onload = function() {
+			// DEV
+			setTimeout(function() { window.scrollTo(0, 1); }, 100);
+			document.getElementById('second_menu').style.display = "none";
+		}
+	</script>
+	<link rel="apple-touch-icon" href="/images/iphone.png"/>
+</head>
+<body>
+
+	<div id="content">
+<div id="home">&nbsp;</div>
+
+		<p class="help" style="margin-top: 20px; text-align: center; font-size: 120%">
+		A internal server error occured - 500
+		</p>
+
+		<p>
+		<a href="http://i.fousa.be" id="mobile" title="Go to the mobile website!">
+			<img src="/images/full.jpg" alt="main site" />
+		</a>
+		</p>
+	</div>
+	<p id="footer"><a href="/feedback">feedback</a><span style="padding: 0 20px 0 20px;">&nbsp;</span><a href="/policy">policy</a></p>
+
+	<% if ENV['RAILS_ENV'].casecmp("production") == 0 %>
+		<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		var pageTracker = _gat._getTracker("UA-2750996-3");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+		</script>
+	<% end %>
+</body>
+</html>

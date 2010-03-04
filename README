@@ -1,0 +1,26 @@
+v1.2
+----
+
+- background color set to grey
+- rename app to remember the cat
+- removed the popup when the task list is empty
+- no rails application error when not authenticated
+- caching overview reset on a new day
+- when no due date is unchecked the date of today is set in the date selector
+- added a line on the policy page, RTM didn't certify this product
+- fixed error in view/add task, was due to locations
+
+v1.3
+----
+- can't add tasks to smart lists
+- added lists and smart lists to the overview
+- you can show/hide the lists
+- rename /rtm to /rtc
+- ability to refresh the overview field and clear cache
+- 500 internal server error page added
+- added a day indicator to the date selection
+
+
+* EASYER TO CLICK LABELS
+* REPEAT FIELD
+* QUICK COMPLETE

@@ -1,0 +1,24 @@
+<% title "iFousa" %>
+
+<div id="rtm"><%= link_to "&nbsp;", home_url, :id => "fousa_home" %></div>
+
+<% if !@succes.nil? %>
+<p class="succes">Feedback was delivered</p>
+<br />
+<% end %>
+
+<% form_for(:rtc, feedback_url, :html => { :method => :put }) do |f| %>
+<%= submit_tag "send feedback", :id => "update" %>
+
+<h2>Application</h2>
+<span id="selects">&nbsp;</span>
+<select name="application">
+	<option>Overall</option>
+	<option selected>Remember The Cat</option>
+</select>
+
+<h2>Feedback</h2>
+<p class="help">Please give a good description of the problem. If you wish to be informed when the problem is fixed then you should leave your email and I'll contact you!</p>
+<%= text_area_tag 'feedback', "", { :rows => 7 } %>
+
+<% end %>

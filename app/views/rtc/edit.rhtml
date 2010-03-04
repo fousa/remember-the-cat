@@ -1,0 +1,44 @@
+<% title "remember the cat" %>
+
+<div id="rtm"><span id="rtm_home_s"></span><%= link_to "&nbsp;", home_url, :id => "fousa_home" %></div>
+
+<% form_for(:rtc, :url => { :controller => "rtc", :action => "edit_done"}, :html => { :method => :put }) do |f| %>
+<div id="button_bar">
+	<%= submit_tag "done", :id => "completed" %>
+	<%= link_to "&lt; cancel", { :controller => :rtc, :action => :overview }, :class => "back" %>
+</div>
+
+<p class="help" style="margin-top: 20px; clear: both;">You can hide a list by clicking it, do the same to show the list.</p>
+
+<ul>
+	<% for count in @counts %>
+		<% icon = count[:type].casecmp('smart') == 0 ? "smart_lists" : count[:type].casecmp('list') == 0 ? "lists" : "date" %>
+		<li><input type="hidden" value="<%= count[:hidden] ? '0' : '1' %>" id="hidden_<%= count[:list].downcase %>" name="hidden_<%= count[:list].downcase %>" /><%= link_to "<img id=\"image_#{count[:list].downcase}\" src=\"/images/#{icon}#{count[:hidden] ? '_disabled' : ''}.png\" alt=\"type of list\" class=\"inline_icon_list\" /><span class=\"inline_icon_list_text #{count[:hidden] ? 'text_color_disable' : 'text_color_' + icon} \">#{count[:list].downcase}</span>", "javascript:toggle_hide('a_#{count[:list].downcase}','text_color_#{icon}','#{count[:list].downcase}','#{icon}')", { :class => "main no_main", :id => "a_#{count[:list].downcase}" } %></li>
+	<% end %>
+</ul>
+<% end %>
+<br />
+<script type="text/javascript" charset="utf-8">
+	preload_image = new Image(25,25); 
+	preload_image.src="/images/date_disabled.png";
+	preload_image2 = new Image(25,25); 
+	preload_image2.src="/images/lists_disabled.png";
+	preload_image3 = new Image(25,25); 
+	preload_image3.src="/images/smart_lists_disabled.png";
+
+	function toggle_hide(element, class_text, name, type_image) {
+		selected_a = document.getElementById(element)
+		selected_span = selected_a.parentNode.getElementsByClassName('inline_icon_list_text')[0]
+		selected_field = document.getElementById('hidden_' + name)
+		selected_image = document.getElementById('image_' + name)
+		if (selected_field.value == "1") {
+			selected_field.value = "0"
+			selected_span.className = "inline_icon_list_text text_color_disable"
+			selected_image.src = "/images/" + type_image + "_disabled.png"
+		} else {
+			selected_field.value = "1"
+			selected_span.className = "inline_icon_list_text " + class_text
+			selected_image.src = "/images/" + type_image + ".png"
+		}
+	}
+</script>

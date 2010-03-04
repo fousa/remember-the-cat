@@ -1,0 +1,112 @@
+<% title "remember the cat" %>
+
+<div id="rtm"><%= link_to "&nbsp;", { :controller => "rtc", :action => "overview" }, :id => "rtm_home" %><%= link_to "&nbsp;", home_url, :id => "fousa_home" %></div>
+
+<% form_for(:rtc, :url => { :controller => "rtc", :action => "add"}, :html => { :method => :put }) do |f| %>
+<div id="button_bar">
+	<%= submit_tag "add", :id => "add" %>
+	<%= button_to "empty", { :controller => "rtc", :action => "add_task" }, :id => "empty" %>
+	<%= link_to "&lt; home", { :controller => :rtc, :action => :overview }, :class => "back" %>
+</div>
+
+<% if !@undo.nil? %>
+<%= link_to "Press to undo the previous '" + @undo[:description] + "' action", undo_url, :class => "undo" %>
+<% end %>
+
+<h2>name</h2>
+<% name = @task.nil? ? "" : @task[:name]%>
+<%= text_area_tag 'name', name, { :rows => 3 } %>
+
+<h2>priority</h2>
+<% priority = @task.nil? ? "N" : @task[:priority] %>
+<table class="radio_group" cellspacing="0" cellpadding="0">
+	<tr>
+		<td><input type="radio" value="1" name="priority" id="high_p" <% if priority.casecmp("1") == 0 %>checked<% end %> /> <label for="high_p" onclick="javascript: disable_radio('high_p')">high</label></td>
+		<td><input type="radio" value="3" name="priority" id="low_p" <% if priority.casecmp("3") == 0 %>checked<% end %> /> <label for="low_p" onclick="javascript: disable_radio('low_p')">low</label></td>
+	</tr>
+	<tr>
+		<td><input type="radio" value="2" name="priority" id="medium_p" <% if priority.casecmp("2") == 0 %>checked<% end %> /> <label for="medium_p" onclick="javascript: disable_radio('medium_p')">medium</label></td>
+		<td><input type="radio" value="" name="priority" id="none_ps" <% if priority.casecmp("N") == 0 %>checked<% end %> /> <label for="none_ps" onclick="javascript: disable_radio('none_ps')">none</label></td>
+	</tr>
+</table>
+
+<h2>due date</h2>
+<script type="text/javascript" charset="utf-8">
+	function dis(element) {
+		if (element.checked) {
+			document.getElementById("date_selection").style.display = "none";
+		} else {
+			document.getElementById("date_selection").style.display = "block";
+		}
+	}
+	function disable_label() {
+		var element = document.getElementById("none_p")
+		if (element.checked) {
+			element.checked = false
+			document.getElementById("date_selection").style.display = "block";
+		} else {
+			element.checked = true
+			document.getElementById("date_selection").style.display = "none";
+		}
+	}
+	function disable_radio(radio) {
+		var element = document.getElementById(radio)
+		if (!element.checked) {
+			element.checked = true
+		}
+	}
+</script>
+<input type="checkbox" value="true" name="due_none" onclick="dis(this)" id="none_p" class="check" <% if @start_date.nil? && (@task.nil? || @task[:due].casecmp("") == 0) %>checked<% end %> /> <label for="due_none" class="none" onclick="javascript: disable_label()">no due date</label><br />
+<% formatted_date = date_to_array(@start_date.nil? ? @task.nil? ? nil : @task[:due] : @start_date) %>
+<div id="date_selection" style="display: <%= @start_date.nil? && (@task.nil? || @task[:due].casecmp("") == 0) ? 'none' : 'block' %>;">
+	<span id="form_date">&nbsp;</span>
+	<% # DON'T UPDATE %>
+	<%= select_day formatted_date[:day].to_i, :onchange => "javascript: changeDate()" %>
+	<%= select_month formatted_date[:month].to_i, :onchange => "javascript: changeDate()" %>
+	<%= select_year formatted_date[:year].to_i, :onchange => "javascript: changeDate()" %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	changeDate()
+	function changeDate() {
+		var date = document.getElementById('form_date')
+		var day = document.getElementById('date_day')
+		var month = document.getElementById('date_month')
+		var year = document.getElementById('date_year')
+		var dl = Date.parse(month.value + '.' + day.value + '.' + year.value);
+		date.innerHTML = dl.toString('ddd').toLowerCase()
+	}
+</script>
+
+<h2>list</h2>
+<span id="selects">&nbsp;</span>
+<% li = @start_list.nil? ? @task.nil? ? "" : @task[:list] : @start_list %>
+<select name="list">
+	<% for list in @lists %>
+		<option value="<%= list[:id] %>"<% if (!@start_list.nil? && list[:name].casecmp(li) == 0) || list[:id].casecmp(li) == 0 %> selected<% end %>><%= list[:name] %></option>
+	<% end %>
+</select>
+
+<h2>location</h2>
+<span id="selects">&nbsp;</span>
+<% loc = @task.nil? ? "" : @task[:location] %>
+<select name="location">
+	<option></option>
+	<% for location in @locations %>
+		<option value="<%= location[:id] %>"<% if location[:id].casecmp(loc) == 0 %> selected<% end %>><%= location[:name] %></option>
+	<% end %>
+</select>
+
+<% url = @task.nil? ? "" : @task[:url] %>
+<h2>url</h2>
+<%= text_area_tag 'url', url, { :rows => 1 } %>
+
+<h2>tags</h2>
+<p class="help">separate each tag with a comma</p>
+<% tags = (@task.nil? ? "" : @task[:tags].instance_of?(String) ? @task[:tags] : @task[:tags].join(", ")) %>
+<%= text_area_tag 'tags', tags, { :rows => 3 } %>
+<br />
+<%= submit_tag "add", :id => "update" %>
+<% end %>
+<br />
+<br />

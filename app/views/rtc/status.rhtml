@@ -1,0 +1,24 @@
+<% title "remember the cat" %>
+
+<div id="rtm"><%= link_to "&nbsp;", { :controller => "rtc", :action => "overview" }, :id => "rtm_home" %><%= link_to "&nbsp;", home_url, :id => "fousa_home" %></div>
+
+<div id="button_bar">
+	<%= button_to "add task", { :controller => "rtc", :action => "add", :id => params[:id] }, :id => "completed" %>
+	<%= link_to "&lt; home", { :controller => :rtc, :action => :overview }, :class => "back" %>
+</div>
+
+<% if !@undo.nil? %>
+<%= link_to "Press to undo the previous '" + @undo[:description] + "' action", undo_url, :class => "undo" %>
+<br />
+<% end %>
+
+<% if @tasks.size > 0%>
+	<ul>
+		<% for task in @tasks %>
+			<li class="<% if task[:priority].casecmp("1") == 0 %>orange<% elsif task[:priority].casecmp("2") == 0 %>dark_blue<% elsif task[:priority].casecmp("3") == 0 %>light_blue<% end %>"><%= link_to task[:name], { :controller => :rtc, :action => :task, :id => task[:id] }, { :class => "todo" } %></li>
+		<% end %>
+	</ul>
+<% else %>
+	<p class="empty_tasks">&lt; no tasks found &gt;</p>
+<% end %>
+<br />

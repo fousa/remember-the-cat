@@ -1,0 +1,415 @@
+* {
+margin: 0;
+padding: 0;
+}
+html,
+body {
+background-color: #666;
+}
+#content {
+background-color: #fff;
+}
+ul {
+clear: both;
+width: 100%;
+list-style-type: none;
+border-top: 1px solid #7cb0f6;
+}
+ol {
+width: none;
+margin: 0 10px 0 30px;
+}
+ol li {
+font-family: "Marker Felt";
+font-size: 17px;
+color: #999;
+padding-bottom: 10px;
+list-style-type: upper-roman;
+}
+ol li a {
+text-decoration: none;
+color: #7cb0f6;
+}
+ul li {
+border-bottom: 1px solid #7cb0f6;
+}
+ul li span.info {
+clear: both;
+float: right;
+font-family: "Marker Felt";
+font-size: 17px;
+margin-top: 12px;
+margin-right: 10%;
+padding: 6px 13px 5px 14px;
+color: #82aa3a;
+background-color: #cfe0b1;
+-webkit-border-radius: 15px;
+}
+.inline_icon {
+position: relative;
+top: -10px;
+}
+.inline_icon_list {
+position: relative;
+top: -2px;
+}
+.inline_icon_text {
+position: relative;
+top: -25px;
+left: 10px;
+}
+.inline_icon_list_text {
+position: relative;
+top: -10px;
+left: 10px;
+}
+.text_color_smart_lists {
+color: #8F89BD;
+}
+.text_color_lists {
+color: #f7874b;
+}
+.text_color_disable {
+color: #AAA;
+}
+.inline_icon_text span,
+.inline_icon_list_text span {
+color: #BBB;
+font-size: 14px;
+}
+a.main {
+display: block;
+width: 90%;
+height: 20px;
+text-decoration: none;
+color: #7cb0f6;
+font-family: "Marker Felt";
+font-size: 20px;
+padding: 15px 10px;
+background: white url(../images/blue_arrow.jpg) right center no-repeat;
+-webkit-tap-highlight-color: #d8e8fc;
+}
+a.no_main {
+background: white;
+}
+li.dragdrop span {
+display: block;
+width: 90%;
+height: 20px;
+text-decoration: none;
+color: #7cb0f6;
+font-family: "Marker Felt";
+font-size: 20px;
+padding: 10px 10px 25px 10px;
+-webkit-tap-highlight-color: #d8e8fc;
+border-left: 10px solid white;
+}
+a.todo {
+display: block;
+width: 85%;
+min-height: 20px;
+text-decoration: none;
+color: #7cb0f6;
+font-family: "Marker Felt";
+font-size: 17px;
+padding: 15px 15px 15px 10px;
+background: white url(../images/blue_arrow.jpg) right center no-repeat;
+-webkit-tap-highlight-color: #d8e8fc;
+border-left: 10px solid white;
+}
+li.orange a {
+border-left-color: #ea5200;
+}
+li.dark_blue a {
+border-left-color: #0060bf;
+}
+li.light_blue a {
+border-left-color: #359aff;
+}
+div#home {
+background: white url(../images/fousa_cat.jpg) top left no-repeat;
+display: block;
+height: 191px;
+width: 100%;
+margin-bottom: 10px;
+}
+div#rtm {
+background: white url(../images/fousa_cat_rtm.jpg) top left no-repeat;
+display: block;
+height: 90px;
+width: 100%;
+text-decoration: none;
+}
+a#fousa_home {
+background: white url(../images/fousa_link.jpg) top left no-repeat;
+display: block;
+height: 85px;
+width: 79px;
+text-decoration: none;
+-webkit-tap-highlight-color: #d8e8fc;
+}
+a#rtm_home {
+float: right;
+background: white url(../images/rtm_link.jpg) top left no-repeat;
+display: block;
+height: 85px;
+width: 155px;
+text-decoration: none;
+-webkit-tap-highlight-color: #d8e8fc;
+}
+span#rtm_home_s {
+float: right;
+background: white url(../images/rtm_link.jpg) top left no-repeat;
+display: block;
+height: 85px;
+width: 155px;
+}
+textarea {
+border: none;
+-webkit-border-radius: 5px;
+-webkit-box-shadow: 1px 1px 7px #000;
+background-color: #eee;
+width: 90%;
+margin-left: 10px;
+margin-right: 10px;
+padding: 6px;
+font-family: "Marker Felt";
+font-size: 17px;
+color: #999;
+-webkit-tap-highlight-color: #cfe0b1;
+}
+table.radio_group {
+font-family: "Marker Felt";
+font-size: 17px;
+color: #999;
+margin: 0px 40px 10px 40px;
+}
+.none {
+font-family: "Marker Felt";
+font-size: 17px;
+color: #999;
+position: relative;
+top: -18px;
+}
+table.radio_group td {
+width: 120px;
+height: 50px;
+}
+input.check_li,
+input.check {
+-webkit-border-radius: 5px;
+border: 4px solid #7cb0f6;
+color: #555;
+background-color: #fff;
+-webkit-appearance: button;
+-webkit-background-composite: none;
+height: 25px;
+width: 25px;
+-webkit-tap-highlight-color: #cfe0b1;
+}
+input.check_li {
+position: relative;
+top: 6px;
+left: -10px;
+}
+table.radio_group input {
+-webkit-border-radius: 10px;
+border: 4px solid #7cb0f6;
+color: #555;
+background-color: #fff;
+-webkit-appearance: button;
+-webkit-background-composite: none;
+height: 25px;
+width: 25px;
+-webkit-tap-highlight-color: #cfe0b1;
+}
+input.check {
+margin: 0 0 10px 40px;
+}
+input.check:checked,
+input.check_li:checked,
+table.radio_group input:checked {
+background-color: #7cb0f6;
+}
+#none_p:checked,
+.check_li:checked {
+background: url(/images/check_on.png) top left no-repeat;
+border: none;
+}
+table.radio_group label {
+position: relative;
+top: -7px;
+}
+select {
+height: 30px;
+-webkit-appearance: listbox;
+background: #7cb0f6 url(../images/white_arrow.png) right center no-repeat;
+border: none;
+color: white;
+margin-bottom: 10px;
+font-family: "Marker Felt";
+font-size: 17px;
+-webkit-tap-highlight-color: #cfe0b1;
+}
+select[disabled] {
+color: #999;
+background-color: white;
+}
+span#selects {
+margin-left: 30px;
+}
+span#form_date {
+width: 60px;
+text-align: right;
+padding-right: 5px;
+font-family: "Marker Felt";
+font-size: 17px;
+color: #7cb0f6;
+display: block;
+float: left;
+position: relative;
+top: 5px;
+}
+h2 {
+clear: both;
+font-family: "Marker Felt";
+font-size: 17px;
+color: #f7874b;
+margin: 10px 10px 10px 10px;
+}
+h2 a {
+float: right;
+text-decoration: none;
+color: #7cb0f6;
+}
+span.format {
+font-family: "Marker Felt";
+font-size: 17px;
+color: #999;
+margin: 0px 10px 0px 40px;
+}
+.succes {
+background-color: #81a937;
+margin: 0 10px;
+padding: 5px 0;
+-webkit-border-radius: 5px;
+font-family: "Marker Felt";
+font-size: 17px;
+color: #fff;
+}
+input#postpone,
+input#complete {
+position: relative;
+top: -5px;
+float: right;
+background-color: #7cb0f6;
+border: none;
+-webkit-appearance: button;
+padding: 8px 16px;
+font-family: "Marker Felt";
+font-size: 17px;
+color: #fff;
+margin-right: 10px;
+-webkit-tap-highlight-color: #cfe0b1;
+}
+input#completed,
+input#update,
+input#delete,
+input#add,
+input#empty,
+input#updatebottom {
+float: right;
+margin-right: 10px;
+background-color: #7cb0f6;
+border: none;
+-webkit-appearance: button;
+padding: 8px 16px;
+font-family: "Marker Felt";
+font-size: 17px;
+color: #fff;
+-webkit-tap-highlight-color: #cfe0b1;
+}
+input.main_but {
+background-color: #7cb0f6;
+border: none;
+-webkit-appearance: button;
+padding: 8px 16px;
+font-family: "Marker Felt";
+font-size: 17px;
+color: #fff;
+width: 100%;
+-webkit-tap-highlight-color: #cfe0b1;
+display: inline;
+}
+a.back {
+float: left;
+position: relative;
+top: -10px;
+display: block;
+min-height: 20px;
+text-decoration: none;
+color: #7cb0f6;
+font-family: "Marker Felt";
+font-size: 20px;
+padding: 15px 0px 15px 10px;
+-webkit-tap-highlight-color: #d8e8fc;
+}
+a.undo {
+text-align: center;
+clear: both;
+color: #fff;
+font-family: "Marker Felt";
+font-size: 17px;
+background-color: #F6C27E;
+-webkit-border-radius: 5px;
+padding: 10px 5px;
+margin-left: 10px;
+margin-right: 10px;
+display: block;
+text-decoration: none;
+}
+div#button_bar {
+width: 100%;
+}
+p {
+margin-top: 20px;
+text-align: center;
+}
+p.left_buttons {
+margin-top: 0px;
+margin-bottom: 10px;
+margin-left: 10px;
+text-align: left;
+}
+a#loc {
+margin-left: 10px;
+}
+p#footer {
+font-family: "Marker Felt";
+font-size: 20px;
+padding: 10px 0 10px 0;
+color: #fff;
+background-color: #666;
+border-top: 2px solid #444;
+margin-top: 0;
+}
+.empty_tasks {
+clear: both;
+font-family: "Marker Felt";
+font-size: 20px;
+color: #F6867E;
+margin: 40px 0 40px 0;
+position: relative;
+top: 20px;
+}
+p#footer a {
+color: #fff;
+text-decoration: none;
+}
+.help {
+font-family: "Marker Felt";
+font-size: 13px;
+color: #888;
+text-align: left;
+margin: 0 10px 5px 10px;
+}
