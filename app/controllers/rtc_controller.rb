@@ -55,7 +55,7 @@ def login
     continue = true
     @token_id = cookies[:rtm_auth_token]
     if !@token_id.nil?
-      if !cookies[:rtm_overview_caching].nil? && Date.today.to_s.casecmp(cookies[:rtm_overview_caching]) != 0
+      if !cookies[:rtm_overview_caching].nil? && Date.today.to_s != cookies[:rtm_overview_caching]
         expire_fragment(%r{rtm_overview_#{@token_id}.*})
       end
       unless read_fragment("rtm_overview_" + @token_id)
@@ -94,11 +94,11 @@ def login
             hidden_on = false
             if !cookie_vars.nil?
               cookie_vars.each_with_index do |var, i|
-                if !var["hidden_" + all[:name].downcase].nil? && var["hidden_" + all[:name].downcase].casecmp("0") == 0
+                if !var["hidden_" + all[:name].downcase].nil? && var["hidden_" + all[:name].downcase] == "0"
                   hidden_on = true
                   break
                 end
-                if !var["hidden_" + all[:name].downcase].nil? && var["hidden_" + all[:name].downcase].casecmp("1") == 0
+                if !var["hidden_" + all[:name].downcase].nil? && var["hidden_" + all[:name].downcase] == "1"
                   hidden_on = false
                   break
                 end
@@ -115,7 +115,7 @@ def login
 
         for list in lists
           if continue
-            count = rtm.get_count(CONFIG['rememberthemilk']['api_key'], CONFIG['rememberthemilk']['secret'], list[:type].casecmp("date") != 0 ? "list" : list[:name], list[:type].casecmp("date") != 0 ? list[:name] : nil)
+            count = rtm.get_count(CONFIG['rememberthemilk']['api_key'], CONFIG['rememberthemilk']['secret'], list[:type] != "date" ? "list" : list[:name], list[:type] != "date" ? list[:name] : nil)
             count = count.instance_of?(Fixnum) ? count.to_s : count
             if count[:error]
               session["error"] = count
@@ -150,17 +150,17 @@ def login
     if !@token_id.nil?
       cookies[:rtm_overview_caching] = { :value => Date.today.to_s, :expires => 1.days.from_now }
       lists = Array.new
-      lists << { :list => "all", :url => "all", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_all"].casecmp("1") == 0) }
+      lists << { :list => "all", :url => "all", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_all"] == "1") }
       i = i + 1
-      lists << { :list => "overdue", :url => "overdue", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_overdue"].casecmp("1") == 0) }
+      lists << { :list => "overdue", :url => "overdue", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_overdue"] == "1") }
       i = i + 1
-      lists << { :list => "today", :url => "today", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_today"].casecmp("1") == 0) }
+      lists << { :list => "today", :url => "today", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_today"] == "1") }
       i = i + 1
-      lists << { :list => "tomorrow", :url => "tomorrow", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_tomorrow"].casecmp("1") == 0) }
+      lists << { :list => "tomorrow", :url => "tomorrow", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_tomorrow"] == "1") }
       i = i + 1
-      lists << { :list => "this week", :url => "week", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_this week"].casecmp("1") == 0) }
+      lists << { :list => "this week", :url => "week", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_this week"] == "1") }
       i = i + 1
-       lists << { :list => "never", :url => "never", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_never"].casecmp("1") == 0) }
+       lists << { :list => "never", :url => "never", :type => "date", :url_type => nil, :hidden => !(cookie_vars.nil? || cookie_vars[i]["hidden_never"] == "1") }
       i = i + 1
       all_lists = rtm.get_all_lists(CONFIG['rememberthemilk']['api_key'], CONFIG['rememberthemilk']['secret'])
       if all_lists[0].nil? && all_lists[:error]
@@ -169,11 +169,11 @@ def login
           hidden_on = false
           if !cookie_vars.nil?
             cookie_vars.each_with_index do |var, i|
-              if !var["hidden_" + all[:name].downcase].nil? && var["hidden_" + all[:name].downcase].casecmp("0") == 0
+              if !var["hidden_" + all[:name].downcase].nil? && var["hidden_" + all[:name].downcase] == "0"
                 hidden_on = true
                 break
               end
-              if !var["hidden_" + all[:name].downcase].nil? && var["hidden_" + all[:name].downcase].casecmp("1") == 0
+              if !var["hidden_" + all[:name].downcase].nil? && var["hidden_" + all[:name].downcase] == "1"
                 hidden_on = false
                 break
               end
@@ -446,8 +446,8 @@ def login
     @start_date = nil
     @start_list = params[:id]
     delete = nil
-    if !params.nil? && !params[:commit].nil? && params[:commit].casecmp("add") == 0 && continue
-      if params[:name].casecmp("") == 0
+    if !params.nil? && !params[:commit].nil? && params[:commit] == "add" && continue
+      if params[:name] == ""
         @task_name = Error::initialize("A name for the task is missing")
         session["error"] = @task_name
         continue = false
@@ -479,7 +479,7 @@ def login
           @task[:due] = params[:date][:year] + "-" + params[:date][:month] + "-" + params[:date][:day]
         end
       end
-      if continue && params[:location].casecmp("") != 0
+      if continue && params[:location] == ""
         @task_location = rtm.set_location(CONFIG['rememberthemilk']['api_key'], CONFIG['rememberthemilk']['secret'], @task_name[:id], @task_name[:taskseries_id], @task_name[:list_id], params[:location], @task_name[:timeline])
         if @task_location[:error]
           session["error"] = @task_location
@@ -488,7 +488,7 @@ def login
           @task[:location] = params[:location]
         end
       end
-      if continue && params[:url].casecmp("") != 0
+      if continue && params[:url] == ""
         @task_url = rtm.set_url(CONFIG['rememberthemilk']['api_key'], CONFIG['rememberthemilk']['secret'], @task_name[:id], @task_name[:taskseries_id], @task_name[:list_id], params[:url], @task_name[:timeline])
         if @task_url[:error]
           session["error"] = @task_url
@@ -497,7 +497,7 @@ def login
           @task[:url] = params[:url]
         end
       end
-      if continue && params[:tags].casecmp("") != 0
+      if continue && params[:tags] == ""
         @task_tags = rtm.set_tags(CONFIG['rememberthemilk']['api_key'], CONFIG['rememberthemilk']['secret'], @task_name[:id], @task_name[:taskseries_id], @task_name[:list_id], params[:tags], @task_name[:timeline])
         if @task_tags[:error]
           session["error"] = @task_tags
@@ -519,9 +519,9 @@ def login
       end
       expire_fragment(%r{rtm_overview_#{cookies[:rtm_auth_token]}.*})
     end
-    if params[:id].casecmp("today") == 0
+    if params[:id] == "today"
   		@start_date = Time.now.strftime("%Y-%m-%d")
-  	elsif params[:id].casecmp("tomorrow") == 0
+  	elsif params[:id] == "tomorrow"
   		@start_date = (Time.now+1.day).strftime("%Y-%m-%d")
   	end
   	@error = reset_error
